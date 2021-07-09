@@ -1,11 +1,10 @@
-import React, {useRef,useEffect,useState} from 'react';
+import React, {useEffect,useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {ChatEngine} from 'react-chat-engine';
 import {auth} from '../firebase';
-
 import {useAuth} from '../contexts/AuthContext';
 import axios from 'axios';
-import { database } from 'firebase';
+
 
 const Chats = () =>{
 
@@ -15,7 +14,7 @@ const Chats = () =>{
    
     const handleLogout= async () =>{
         await auth.signOut();
-        history.push('/');
+        history.push('/login');
     }
 
     const getFile= async (url) => {
@@ -27,7 +26,7 @@ const Chats = () =>{
 
     useEffect(() => {
         if(!user){
-            history.push('/');
+            history.push('/login');
             return;
         }
 
@@ -54,8 +53,11 @@ const Chats = () =>{
 
             getFile(user.photoURL)
                 .then((avatar) =>{
-                    formdata.append('avatar',avatar, avatar.name)
+                    if(user.photoURL!==null){
+                        formdata.append('avatar',avatar, avatar.name)
 
+                    }
+                    
                     axios.post('https://api.chatengine.io/users/',
                         formdata,
                         {headers: {'private-key': '8a6b8d58-fd50-48fe-b516-bee8c0dca2a2' }}

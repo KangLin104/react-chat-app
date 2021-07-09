@@ -6,6 +6,7 @@ import { AuthProvider } from "../contexts/AuthContext";
 
 import Chats from "./Chats"
 import Login from "./Login"
+import Signup from "./Signup";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       <Router>
         <AuthProvider>
           <Switch>
-            <Route path="/chats" component={Chats} />
+            <Route exact path="/Chats" component={Chats} />
+            <Route path="/signup" component={Signup}/>
             <Route path="/" component={Login} />
           </Switch>
         </AuthProvider>

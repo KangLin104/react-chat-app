@@ -10,18 +10,29 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({children}) =>{
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
-    const history = useHistory()
+    const history = useHistory();
+
+    function signup(email,password) {
+        return auth.createUserWithEmailAndPassword(email,password)
+    }
+
+    function login(email,password){
+        return auth.signInWithEmailAndPassword(email,password)
+    }
+
+
 //grab the user state 
     useEffect(() => {
         auth.onAuthStateChanged((user)=> {
             console.log(user);
             setUser(user);
             setLoading(false);
-            if(user) history.push('/chats');
+            if(user){
+            history.push('/chats');}
         }) 
     }, [user, history]);
 
-const value= {user};
+const value= {user,login,signup};
 
 return(
     <AuthContext.Provider value={value}>
